@@ -1,13 +1,13 @@
 # 💹 Forex Trading Dashboard
 
-## 🚀 Overview
-This Streamlit-based **Forex Trading Dashboard** provides real-time analysis of the **USD/JPY currency pair**, enabling traders to make data-driven decisions using **technical indicators** and visualizations.
+##  Overview
+This Streamlit-based **Forex Trading Dashboard** provides historical analysis of the **USD/JPY currency pair**, enabling traders to make data-driven decisions using **technical indicators** and visualisations.
 
-## 🌍 Live App
-🚀 **Access the dashboard here:** [Forex Trading Dashboard](https://forex-dashboard-xqvyqivnirq4sxcvqczsmy.streamlit.app/#23d8e682)
+##  Live App
+ **Access the dashboard here:** [Forex Trading Dashboard](https://forex-dashboard-xqvyqivnirq4sxcvqczsmy.streamlit.app/#23d8e682)
 
 ## 🔹 Features
-- 📊 **Candlestick Chart** – Visualizes price trends with open, high, low, and close prices.
+- 📊 **Candlestick Chart** – Visualises price trends with open, high, low, and close prices.
 - 📈 **Moving Averages** – Displays **7-day & 30-day moving averages** for trend analysis.
 - 📊 **Bollinger Bands** – Identifies potential breakouts and volatility shifts.
 - 🔥 **RSI (Relative Strength Index)** – Detects **overbought & oversold conditions**.
