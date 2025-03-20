@@ -85,29 +85,27 @@ bollinger_fig.add_trace(go.Scatter(x=df_filtered["Date"], y=df_filtered["Close"]
 bollinger_fig.update_layout(title="USD/JPY Bollinger Bands", xaxis_title="Date", yaxis_title="Price", template="plotly_dark")
 st.plotly_chart(bollinger_fig, use_container_width=True)
 
-# RSI Indicator
-st.markdown("### 🔥 RSI Indicator")
-def compute_rsi(data, window=14):
-    delta = data.diff(1)
-    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
-    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
-    rs = gain / loss
-    return 100 - (100 / (1 + rs))
+# MACD Indicator
+st.markdown("### 📊 MACD Indicator")
+def compute_macd(data, short_window=12, long_window=26, signal_window=9):
+    short_ema = data.ewm(span=short_window, adjust=False).mean()
+    long_ema = data.ewm(span=long_window, adjust=False).mean()
+    macd = short_ema - long_ema
+    signal = macd.ewm(span=signal_window, adjust=False).mean()
+    return macd, signal
 
-df_filtered["RSI"] = compute_rsi(df_filtered["Close"], window=14)
-rsi_fig = px.line(df_filtered, x="Date", y="RSI", title="Relative Strength Index (RSI)")
-rsi_fig.add_hline(y=70, line_dash="dash", line_color="red", annotation_text="Overbought")
-rsi_fig.add_hline(y=30, line_dash="dash", line_color="green", annotation_text="Oversold")
-st.plotly_chart(rsi_fig, use_container_width=True)
+df_filtered["MACD"], df_filtered["Signal Line"] = compute_macd(df_filtered["Close"])
+macd_fig = px.line(df_filtered, x="Date", y=["MACD", "Signal Line"], title="Moving Average Convergence Divergence (MACD)")
+st.plotly_chart(macd_fig, use_container_width=True)
 
-# AI Trading Insights
-st.markdown("### 🤖 AI-Generated Insights")
-if df_filtered["RSI"].iloc[-1] > 70:
-    st.error("⚠️ The market is overbought! Consider a potential reversal.")
-elif df_filtered["RSI"].iloc[-1] < 30:
-    st.success("✅ The market is oversold! A buying opportunity may be present.")
+# Automated Trading Signals
+st.markdown("### 🔔 Automated Trading Signals")
+if df_filtered["MACD"].iloc[-1] > df_filtered["Signal Line"].iloc[-1] and df_filtered["RSI"].iloc[-1] < 30:
+    st.success("📢 Buy Signal: Momentum is shifting upwards!")
+elif df_filtered["MACD"].iloc[-1] < df_filtered["Signal Line"].iloc[-1] and df_filtered["RSI"].iloc[-1] > 70:
+    st.error("📢 Sell Signal: Market is overbought and momentum is shifting downwards!")
 else:
-    st.info("ℹ️ Market conditions are neutral.")
+    st.info("📢 No clear trading signal. Wait for better conditions.")
 
 # Data Table
 st.markdown("### 📋 Raw Data Table")
